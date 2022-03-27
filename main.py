@@ -1,29 +1,17 @@
-from fastapi import Body, FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI
 
 app = FastAPI()
 
-# Define post schema
-class Post(BaseModel):
-    title: str
-    content: str
-    published: bool = False
-# Method("Path")
-@app.get("/") 
-# Function
-def root():
-    return {"message": "return 200"}
 
-@app.get("/posts")
-def get_posts():
-    return {"data": "data posts"}
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
+@app.get("/items/{item_id}")
+async def read_item(item_id):
+    return {"item_id": item_id}
 
 
-@app.post("/createposts")
-def create_posts(new_post: Post):
-    print(new_post)
-    return {"data": new_post.title,
-            "published": new_post.published}
-# def create_posts(payload: dict = Body(...)):
-#     print(payload)
-#     return {"data": payload['title']}
+@app.get("/items_int/{item_id}")
+async def read_item(item_id: int):
+    return {"item_id": item_id}
